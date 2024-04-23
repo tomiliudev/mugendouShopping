@@ -1,15 +1,31 @@
 <?php
 
-use App\Http\Controllers\user\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\user\Auth\ConfirmablePasswordController;
-use App\Http\Controllers\user\Auth\EmailVerificationNotificationController;
-use App\Http\Controllers\user\Auth\EmailVerificationPromptController;
-use App\Http\Controllers\user\Auth\NewPasswordController;
-use App\Http\Controllers\user\Auth\PasswordController;
-use App\Http\Controllers\user\Auth\PasswordResetLinkController;
-use App\Http\Controllers\user\Auth\RegisteredUserController;
-use App\Http\Controllers\user\Auth\VerifyEmailController;
+use App\Http\Controllers\Owner\ProfileController;
+use App\Http\Controllers\Owner\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Owner\Auth\ConfirmablePasswordController;
+use App\Http\Controllers\Owner\Auth\EmailVerificationNotificationController;
+use App\Http\Controllers\Owner\Auth\EmailVerificationPromptController;
+use App\Http\Controllers\Owner\Auth\NewPasswordController;
+use App\Http\Controllers\Owner\Auth\PasswordController;
+use App\Http\Controllers\Owner\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Owner\Auth\RegisteredUserController;
+use App\Http\Controllers\Owner\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/owner', function () {
+    return view('owner/welcome');
+});
+
+Route::get('/owner/dashboard', function () {
+    return view('owner/dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
