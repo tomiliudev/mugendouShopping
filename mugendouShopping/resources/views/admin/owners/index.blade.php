@@ -13,6 +13,8 @@
                     <section class="text-gray-600 body-font">
                         <div class="container px-5 py-24 mx-auto">
 
+                            <x-flash-message status='info' />
+
                             <div class="flex justify-end mb-4">
                                 <x-primary-button onclick="location.href='{{ route('admin.owners.create') }}'">新規登録する</x-primary-button>
                             </div>
