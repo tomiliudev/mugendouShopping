@@ -16,7 +16,7 @@ class OwnersController extends Controller
     {
         $ownerList = Owner::all();
         // dd($ownerList);
-        return view("admin.owners.index", compact("ownerList"));
+        return view('admin.owners.index', compact('ownerList'));
     }
 
     /**
@@ -25,7 +25,7 @@ class OwnersController extends Controller
     public function create()
     {
         //
-        return view("admin.owners.create");
+        return view('admin.owners.create');
     }
 
     /**
@@ -61,7 +61,8 @@ class OwnersController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $owner = Owner::findOrFail($id);
+        return view('admin.owners.edit', compact('owner'));
     }
 
     /**

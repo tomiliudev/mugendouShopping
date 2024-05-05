@@ -28,6 +28,7 @@
                                         <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">名前</th>
                                         <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">メール</th>
                                         <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">登録日</th>
+                                        <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">編集</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -36,6 +37,9 @@
                                         <td class="px-4 py-3">{{$owner->name;}}</td>
                                         <td class="px-4 py-3">{{$owner->email;}}</td>
                                         <td class="px-4 py-3">{{$owner->created_at;}}</td>
+                                        <td class="px-4 py-3">
+                                            <x-secondary-button onclick="location.href='{{ route('admin.owners.edit', ['owner' => $owner->id]) }}'">編集</x-secondary-button>
+                                        </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
