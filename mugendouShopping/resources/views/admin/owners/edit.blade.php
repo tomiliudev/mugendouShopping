@@ -14,6 +14,7 @@
                         <div class="container px-5 py-24 mx-auto">
                             <form method="post" action="{{ route('admin.owners.update', ['owner' => $owner->id]) }}">
                                 @csrf
+                                @method('PUT')
 
                                 <div class="relative mb-4">
                                     <label for="name" class="leading-7 text-sm text-gray-600">名前</label>

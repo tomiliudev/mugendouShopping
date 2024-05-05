@@ -4,8 +4,10 @@ namespace App\Http\Controllers\admin;
 
 use App\Models\Owner;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\OwnersRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class OwnersController extends Controller
 {
@@ -31,13 +33,9 @@ class OwnersController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(OwnersRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:owners',
-            'password' => 'required|string|confirmed|max:8',
-        ]);
+        $request->validate(['email' => 'required|string|email|max:255|unique:owners']);
 
         Owner::create([
             'name' => $request->name,
@@ -68,9 +66,17 @@ class OwnersController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(OwnersRequest $request, string $id)
     {
-        //
+        $request->validate(['email' => ['required', 'string', 'email', 'max:255', Rule::unique(Owner::class)->ignore($id)]]);
+
+        $owner = Owner::findOrFail($id);
+        $owner->name = $request->name;
+        $owner->email = $request->email;
+        $owner->password = Hash::make($request->password);
+        $owner->save();
+
+        return redirect()->route('admin.owners.index')->with('message', 'オーナー情報を更新しました。');
     }
 
     /**
