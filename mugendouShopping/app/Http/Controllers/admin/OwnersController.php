@@ -95,4 +95,19 @@ class OwnersController extends Controller
             'status' => 'warning'
         ]);
     }
+
+    public function expiredOwnerIndex()
+    {
+        $expiredOwnerList = Owner::onlyTrashed()->get();
+        return view('admin.owners.expired-owners-index', compact('expiredOwnerList'));
+    }
+
+    public function expiredOwnerDestroy(string $id)
+    {
+        Owner::onlyTrashed()->findOrFail($id)->forceDelete();
+        return redirect()->route('admin.expired-owners.index')->with([
+            'message' => '完全に削除しました。',
+            'status' => 'warning'
+        ]);
+    }
 }
