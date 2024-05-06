@@ -5,7 +5,6 @@ namespace App\Http\Controllers\admin;
 use App\Models\Owner;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\OwnersRequest;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
@@ -43,7 +42,10 @@ class OwnersController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return redirect()->route('admin.owners.index')->with('message', 'オーナーを登録しました。');
+        return redirect()->route('admin.owners.index')->with([
+            'message' => 'オーナー情報を登録しました。',
+            'status' => 'info'
+        ]);
     }
 
     /**
@@ -76,7 +78,10 @@ class OwnersController extends Controller
         $owner->password = Hash::make($request->password);
         $owner->save();
 
-        return redirect()->route('admin.owners.index')->with('message', 'オーナー情報を更新しました。');
+        return redirect()->route('admin.owners.index')->with([
+            'message' => 'オーナー情報を更新しました。',
+            'status' => 'info'
+        ]);
     }
 
     /**
@@ -84,6 +89,10 @@ class OwnersController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Owner::findOrFail($id)->delete();
+        return redirect()->route('admin.owners.index')->with([
+            'message' => 'オーナーを削除しました。',
+            'status' => 'warning'
+        ]);
     }
 }
