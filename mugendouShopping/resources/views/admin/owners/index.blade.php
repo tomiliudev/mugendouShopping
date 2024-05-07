@@ -52,6 +52,7 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            {{ $ownerList->links() }}
                             @endif
                         </div>
                     </section>

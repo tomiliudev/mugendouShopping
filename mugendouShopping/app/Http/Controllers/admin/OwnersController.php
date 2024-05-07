@@ -15,8 +15,7 @@ class OwnersController extends Controller
      */
     public function index()
     {
-        $ownerList = Owner::all();
-        // dd($ownerList);
+        $ownerList = Owner::paginate(6);
         return view('admin.owners.index', compact('ownerList'));
     }
 
