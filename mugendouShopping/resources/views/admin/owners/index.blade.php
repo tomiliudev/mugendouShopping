@@ -8,10 +8,10 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
+                <div class="md:px-6 py-6 text-gray-900">
 
                     <section class="text-gray-600 body-font">
-                        <div class="container px-5 py-24 mx-auto">
+                        <div class="container md:px-5 py-24 mx-auto">
 
                             <x-flash-message status="{{ session('status') }}" />
 
@@ -25,23 +25,23 @@
                             <table class="table-auto w-full text-left whitespace-no-wrap">
                                 <thead>
                                     <tr>
-                                        <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">名前</th>
-                                        <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">メール</th>
-                                        <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">登録日</th>
-                                        <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100"></th>
-                                        <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100"></th>
+                                        <th class="md:px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">名前</th>
+                                        <th class="md:px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">メール</th>
+                                        <th class="md:px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">登録日</th>
+                                        <th class="md:px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100"></th>
+                                        <th class="md:px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($ownerList as $owner)
                                     <tr>
-                                        <td class="px-4 py-3">{{$owner->name;}}</td>
-                                        <td class="px-4 py-3">{{$owner->email;}}</td>
-                                        <td class="px-4 py-3">{{$owner->created_at;}}</td>
-                                        <td class="px-4 py-3">
+                                        <td class="md:px-4 py-3">{{$owner->name;}}</td>
+                                        <td class="md:px-4 py-3">{{$owner->email;}}</td>
+                                        <td class="md:px-4 py-3">{{$owner->created_at;}}</td>
+                                        <td class="md:px-4 py-3">
                                             <x-secondary-button onclick="location.href='{{ route('admin.owners.edit', ['owner' => $owner->id]) }}'">編集</x-secondary-button>
                                         </td>
-                                        <td class="px-4 py-3">
+                                        <td class="md:px-4 py-3">
                                             <form id="delete_{{ $owner->id }}" method="POST" action="{{ route('admin.owners.destroy', ['owner' => $owner->id]) }}">
                                                 @csrf
                                                 @method('delete')
