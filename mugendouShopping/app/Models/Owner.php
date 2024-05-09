@@ -44,4 +44,9 @@ class Owner extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function shop()
+    {
+        return $this->hasOne(Shop::class, Shop::FOREIGN_KEY);
+    }
 }
