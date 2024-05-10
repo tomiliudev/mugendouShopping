@@ -9,6 +9,14 @@ class Shop extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'ownerId',
+        'name',
+        'information',
+        'imageName',
+        'isEnable',
+    ];
+
     public const FOREIGN_KEY = 'ownerId';
 
     public function owner()

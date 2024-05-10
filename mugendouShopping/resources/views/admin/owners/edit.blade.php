@@ -27,6 +27,12 @@
                                     <x-input-error :messages="$errors->get('email')" class="mt-2" />
                                 </div>
                                 <div class="relative mb-4">
+                                    <label for="shopName" class="leading-7 text-sm text-gray-600">店名</label>
+                                    <div class="w-full bg-white rounded text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                        {{ $owner->shop->name }}
+                                    </div>
+                                </div>
+                                <div class="relative mb-4">
                                     <label for="password" class="leading-7 text-sm text-gray-600">パスワード</label>
                                     <input type="password" id="password" name="password" required class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                                     <x-input-error :messages="$errors->get('password')" class="mt-2" />

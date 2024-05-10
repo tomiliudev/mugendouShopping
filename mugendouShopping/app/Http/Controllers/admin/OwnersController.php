@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\admin;
 
 use App\Models\Owner;
+use App\Models\Shop;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\OwnersRequest;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
+use Throwable;
 
 class OwnersController extends Controller
 {
@@ -35,11 +39,26 @@ class OwnersController extends Controller
     {
         $request->validate(['email' => 'required|string|email|max:255|unique:owners']);
 
-        Owner::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        try {
+            DB::transaction(function () use ($request) {
+                $owner = Owner::create([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'password' => Hash::make($request->password),
+                ]);
+
+                Shop::create([
+                    'ownerId' => $owner->id,
+                    'name' => '店名が入る',
+                    'information' => 'お店の情報お店の情報お店の情報お店の情報お店の情報お店の情報',
+                    'imageName' => '',
+                    'isEnable' => true,
+                ]);
+            }, 2);
+        } catch (Throwable $e) {
+            Log::error($e);
+            throw $e;
+        }
 
         return redirect()->route('admin.owners.index')->with([
             'message' => 'オーナー情報を登録しました。',
