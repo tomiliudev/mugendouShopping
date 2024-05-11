@@ -18,26 +18,27 @@
                             @if ($shopList->isEmpty())
                             ショップがありません！
                             @else
-                            <table class="table-auto w-full text-left whitespace-no-wrap">
-                                <thead>
-                                    <tr>
-                                        <th class="md:px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">店名</th>
-                                        <th class="md:px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">画像</th>
-                                        <th class="md:px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($shopList as $shop)
-                                    <tr>
-                                        <td class="md:px-4 py-3">{{$shop->name;}}</td>
-                                        <td class="md:px-4 py-3">{{$shop->imageName;}}</td>
-                                        <td class="md:px-4 py-3">
-                                            <x-secondary-button onclick="location.href='{{ route('owner.shop.edit', ['shop' => $shop->id]) }}'">編集</x-secondary-button>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                @foreach ($shopList as $shop)
+                                <div class="border rounded w-1/2 p-2">
+                                    <a href="{{route('owner.shop.edit', ['shop' => $shop->id])}}">
+                                        <div class="pt-2 pb-2 text-white">
+                                            @if ($shop->isEnable)
+                                                <span class="p-2 border rounded bg-green-500">販売中</span>
+                                            @else
+                                                <span class="p-2 border rounded bg-red-500">停止中</span>
+                                            @endif
+                                        </div>
+                                        <div class="pb-2 text-xl">
+                                            {{$shop->name;}}
+                                        </div>
+                                        @if (empty($shop->imageName))
+                                            <img src="{{ asset('images/no_image.png') }}">
+                                        @else
+                                            <img src="{{ asset('images/no_image.png') }}">
+                                        @endif
+                                    </a>
+                                </div>
+                                @endforeach
                             @endif
                         </div>
                     </section>
