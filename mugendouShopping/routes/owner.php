@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Owner\ProfileController;
+use App\Http\Controllers\Owner\ShopController;
 use App\Http\Controllers\Owner\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Owner\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Owner\Auth\EmailVerificationNotificationController;
@@ -24,6 +25,12 @@ Route::middleware('auth:owner')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::prefix('shops')->group(function () {
+        Route::get('/', [ShopController::class, 'index'])->name('shop.index');
+        Route::get('{shop}/edit', [ShopController::class, 'edit'])->name('shop.edit');
+        Route::patch('{shop}/update', [ShopController::class, 'update'])->name('shop.update');
+    });
 });
 
 Route::middleware('guest:owner')->group(function () {
