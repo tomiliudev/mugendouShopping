@@ -12,39 +12,17 @@
 
                     <section class="text-gray-600 body-font">
                         <div class="container px-5 py-24 mx-auto">
-                            <form method="post" action="{{ route('admin.owners.update', ['owner' => $owner->id]) }}">
+                            <form method="post" action="{{ route('owner.shop.update', ['shop' => $shop->id]) }}" enctype="multipart/form-data">
                                 @csrf
-                                @method('PUT')
+                                @method('PATCH')
 
                                 <div class="relative mb-4">
-                                    <label for="name" class="leading-7 text-sm text-gray-600">名前</label>
-                                    <input type="text" id="name" name="name" value="{{ $owner->name }}" required class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                                    <x-input-error :messages="$errors->get('name')" class="mt-2" />
-                                </div>
-                                <div class="relative mb-4">
-                                    <label for="email" class="leading-7 text-sm text-gray-600">メール</label>
-                                    <input type="email" id="email" name="email" value="{{ $owner->email }}" required class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
-                                </div>
-                                <div class="relative mb-4">
-                                    <label for="shopName" class="leading-7 text-sm text-gray-600">店名</label>
-                                    <div class="w-full bg-white rounded text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                                        {{ $owner->shop->name }}
-                                    </div>
-                                </div>
-                                <div class="relative mb-4">
-                                    <label for="password" class="leading-7 text-sm text-gray-600">パスワード</label>
-                                    <input type="password" id="password" name="password" required class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                                    <x-input-error :messages="$errors->get('password')" class="mt-2" />
-                                </div>
-                                <div class="relative mb-4">
-                                    <label for="password_confirmation" class="leading-7 text-sm text-gray-600">パスワード確認</label>
-                                    <input type="password" id="password_confirmation" name="password_confirmation" required class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                                    <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+                                    <label for="image" class="leading-7 text-sm text-gray-600">画像</label>
+                                    <input type="file" id="image" name="image" accept="image/png,image/jpg,image/jpeg" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                                 </div>
 
                                 <div class="flex justify-between">
-                                    <x-secondary-button onclick="location.href='{{ route('admin.owners.index') }}'">戻る</x-secondary-button>
+                                    <x-secondary-button onclick="location.href='{{ route('owner.shop.index') }}'">戻る</x-secondary-button>
                                     <x-primary-button>更新する</x-primary-button>
                                 </div>
                             </form>

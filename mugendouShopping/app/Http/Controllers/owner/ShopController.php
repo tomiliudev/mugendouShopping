@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
 use App\Models\Shop;
-use Illuminate\Http\RedirectResponse;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ShopController extends Controller implements HasMiddleware
 {
@@ -35,18 +35,25 @@ class ShopController extends Controller implements HasMiddleware
 
     public function index()
     {
+        phpinfo();
         $ownerId = Auth::id();
         $shopList = Shop::where('ownerId', $ownerId)->get();
         return view('owner.shop.index', compact('shopList'));
     }
 
-    public function edit(Request $request, $shopId): View
+    public function edit(Request $request, $id): View
     {
-        dd($request->route()->parameter('shop'));
+        $shop = Shop::findOrFail($id);
+        return view('owner.shop.edit', compact('shop'));
     }
 
-    public function update(Request $request): RedirectResponse
+    public function update(Request $request, $id)
     {
-        dd("shop update");
+        $shopImage = $request->image;
+        if (!is_null($shopImage) && $shopImage->isValid()) {
+            Storage::putFile('public/shop/', $shopImage);
+        }
+
+        return redirect()->route('owner.shop.index');
     }
 }
