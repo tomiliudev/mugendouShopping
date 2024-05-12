@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UploadImageRequest;
 use App\Models\Shop;
 use Closure;
 use Illuminate\Http\Request;
@@ -47,7 +48,7 @@ class ShopController extends Controller implements HasMiddleware
         return view('owner.shop.edit', compact('shop'));
     }
 
-    public function update(Request $request, $id)
+    public function update(UploadImageRequest $request, $id)
     {
         $shopImage = $request->image;
         if (!is_null($shopImage) && $shopImage->isValid()) {
