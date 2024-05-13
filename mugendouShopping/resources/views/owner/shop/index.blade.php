@@ -13,7 +13,7 @@
                     <section class="text-gray-600 body-font">
                         <div class="container md:px-5 py-24 mx-auto">
 
-                            <x-flash-message status="{{ session('status') }}" />
+                            <div class="pb-4"><x-flash-message status="{{ session('status') }}" /></div>
 
                             @if ($shopList->isEmpty())
                             ショップがありません！
@@ -31,11 +31,7 @@
                                         <div class="pb-2 text-xl">
                                             {{$shop->name;}}
                                         </div>
-                                        @if (empty($shop->imageName))
-                                            <img src="{{ asset('images/no_image.png') }}">
-                                        @else
-                                            <img src="{{ asset("storage/shop/$shop->imageName") }}">
-                                        @endif
+                                        <x-shop-thumbnail :imageName='$shop->imageName' />
                                     </a>
                                 </div>
                                 @endforeach

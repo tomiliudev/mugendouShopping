@@ -49,6 +49,17 @@ class ShopController extends Controller implements HasMiddleware
 
     public function update(UploadImageRequest $request, $id)
     {
+        $request->validate(
+            [
+                'name' => ['required', 'string', 'max:50'],
+                'information' => ['required', 'string', 'max:1000'],
+                'isEnable' => ['required'],
+            ]
+        );
+
+        $name = $request->name;
+        $information = $request->information;
+        $isEnable = $request->isEnable;
         $shopImage = $request->image;
 
         // shop情報取得
@@ -67,8 +78,15 @@ class ShopController extends Controller implements HasMiddleware
             $shop->imageName = $uniqFileName;
         }
 
+        $shop->name = $name;
+        $shop->information = $information;
+        $shop->isEnable = $isEnable;
         $shop->save();
 
-        return redirect()->route('owner.shop.index');
+        return redirect()->route('owner.shop.index')
+            ->with([
+                'message' => '店舗情報を更新しました。',
+                'status' => 'info'
+            ]);
     }
 }

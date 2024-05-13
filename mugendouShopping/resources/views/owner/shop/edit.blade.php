@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            オーナー編集
+            店舗情報の編集
         </h2>
     </x-slot>
 
@@ -17,9 +17,35 @@
                                 @method('PATCH')
 
                                 <div class="relative mb-4">
+                                    <label for="name" class="leading-7 text-sm text-gray-600">店名</label>
+                                    <input type="text" id="name" name="name" value="{{ $shop->name }}" required class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                    <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                                </div>
+
+                                <div class="relative mb-4">
+                                    <label for="information" class="leading-7 text-sm text-gray-600">店舗情報</label>
+                                    <textarea id="information" name="information" rows="10" required class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">{{ $shop->information }}</textarea>
+                                    <x-input-error :messages="$errors->get('information')" class="mt-2" />
+                                </div>
+
+                                <div class="relative mb-4">
                                     <label for="image" class="leading-7 text-sm text-gray-600">画像</label>
+                                    <div class="w-64 pb-2"><x-shop-thumbnail :imageName='$shop->imageName' /></div>
                                     <input type="file" id="image" name="image" accept="image/jpeg,image/jpg,image/png" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                                     <x-input-error :messages="$errors->first('image')" class="mt-2" />
+                                </div>
+
+                                <div class="relative mb-4">
+                                    <div class="flex justify-start">
+                                        <div class="pr-4">
+                                            <input type="radio" id="isEnable1" name="isEnable" value="1" @if ($shop->isEnable) { checked } @endif>
+                                            <label for="isEnable1" class="leading-7 text-sm text-gray-600">販売中</label>
+                                        </div>
+                                        <div>
+                                            <input type="radio" id="isEnable0" name="isEnable" value="0" @if (!$shop->isEnable) { checked } @endif>
+                                        <label for="isEnable0" class="leading-7 text-sm text-gray-600">停止中</label>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="flex justify-between">
