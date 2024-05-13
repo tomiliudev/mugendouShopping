@@ -50,13 +50,24 @@ class ShopController extends Controller implements HasMiddleware
     public function update(UploadImageRequest $request, $id)
     {
         $shopImage = $request->image;
-        if (!is_null($shopImage) && $shopImage->isValid()) {
-            $uniqFileName = ImageService::upload($shopImage, 'shop');
 
-            $shop = Shop::findOrFail($id);
+        // shop情報取得
+        $shop = Shop::findOrFail($id);
+
+        if (!is_null($shopImage) && $shopImage->isValid()) {
+            $folder = 'shop';
+
+            // 既存の画像を削除
+            if (!empty($shop->imageName)) {
+                ImageService::delete($shop->imageName, $folder);
+            };
+
+            // 新しい画像で更新
+            $uniqFileName = ImageService::upload($shopImage, $folder);
             $shop->imageName = $uniqFileName;
-            $shop->save();
         }
+
+        $shop->save();
 
         return redirect()->route('owner.shop.index');
     }

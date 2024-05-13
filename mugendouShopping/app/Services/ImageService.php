@@ -7,6 +7,8 @@ use Intervention\Image\ImageManager;
 
 class ImageService
 {
+    private const PATH = "public/%s/";
+
     public static function upload($image, $folder)
     {
         // Storage::putFile("public/$folder/", $image); // ファイルオブジェクト
@@ -14,7 +16,15 @@ class ImageService
         $fileName = uniqid(rand() . '_');
         $extension = $image->extension();
         $uniqFileName = $fileName . '.' . $extension;
-        Storage::put("public/$folder/" . $uniqFileName, $resizedImage);
+        Storage::put(sprintf(self::PATH, $folder) . $uniqFileName, $resizedImage);
         return $uniqFileName;
+    }
+
+    public static function delete($image, $folder)
+    {
+        $filePath = sprintf(self::PATH, $folder) . $image;
+        if (Storage::exists($filePath)) {
+            Storage::delete($filePath);
+        }
     }
 }
