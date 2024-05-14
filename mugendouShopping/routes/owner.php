@@ -11,6 +11,7 @@ use App\Http\Controllers\Owner\Auth\PasswordController;
 use App\Http\Controllers\Owner\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Owner\Auth\RegisteredUserController;
 use App\Http\Controllers\Owner\Auth\VerifyEmailController;
+use App\Http\Controllers\Owner\ImageController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -31,6 +32,8 @@ Route::middleware('auth:owner')->group(function () {
         Route::get('{shop}/edit', [ShopController::class, 'edit'])->name('shop.edit');
         Route::patch('{shop}/update', [ShopController::class, 'update'])->name('shop.update');
     });
+
+    Route::resource('images', ImageController::class)->except(['show']);
 });
 
 Route::middleware('guest:owner')->group(function () {
