@@ -16,7 +16,10 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     <x-nav-link :href="route('owner.shop.index')" :active="request()->routeIs('owner.shop.index')">
-                        ショップ一覧
+                        店舗一覧
+                    </x-nav-link>
+                    <x-nav-link :href="route('owner.images.index')" :active="request()->routeIs('owner.images.index')">
+                        画像一覧
                     </x-nav-link>
                 </div>
             </div>
@@ -73,7 +76,10 @@
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('owner.shop.index')" :active="request()->routeIs('owner.shop.index')">
-                ショップ一覧
+                店舗一覧
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('owner.images.index')" :active="request()->routeIs('owner.images.index')">
+                画像一覧
             </x-responsive-nav-link>
         </div>
 

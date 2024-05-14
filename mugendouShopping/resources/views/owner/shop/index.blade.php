@@ -31,7 +31,7 @@
                                         <div class="pb-2 text-xl">
                                             {{$shop->name;}}
                                         </div>
-                                        <x-shop-thumbnail :imageName='$shop->imageName' />
+                                        <x-thumbnail :imageName='$shop->imageName' folder='shop' />
                                     </a>
                                 </div>
                                 @endforeach
