@@ -22,16 +22,20 @@
                             @if ($images->isEmpty())
                             画像がありません！
                             @else
-                                @foreach ($images as $image)
-                                <div class="border rounded w-1/4 p-2">
-                                    <a href="{{route('owner.image.edit', ['image' => $image->id])}}">
-                                        <div class="pb-2 text-xl">
-                                            {{$image->title;}}
+                                <div class="flex flex-wrap">
+                                    @foreach ($images as $image)
+                                        <div class="w-1/4 p-4">
+                                            <a href="{{route('owner.images.edit', ['image' => $image->id])}}">
+                                                <div class="border rounded-md p-4">
+                                                    <div class="text-xl">
+                                                        {{$image->title;}}
+                                                    </div>
+                                                    <x-thumbnail :imageName='$image->imageName' folder='product' />
+                                                </div>
+                                            </a>
                                         </div>
-                                        <x-thumbnail :imageName='$image->imageName' folder='product' />
-                                    </a>
+                                    @endforeach
                                 </div>
-                                @endforeach
                                 {{ $images->links() }}
                             @endif
                         </div>

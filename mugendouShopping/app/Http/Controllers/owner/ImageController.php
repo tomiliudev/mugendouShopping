@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Owner;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UploadImageRequest;
 use App\Models\Image;
+use App\Services\ImageService;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -37,7 +38,7 @@ class ImageController extends Controller implements HasMiddleware
      */
     public function index()
     {
-        $images = Image::where('ownerId', Auth::id())->orderBy('updated_at', 'desc')->paginate(20);
+        $images = Image::where('ownerId', Auth::id())->orderBy('updated_at', 'desc')->paginate(8);
         return view('owner.image.index', compact('images'));
     }
 
@@ -54,7 +55,18 @@ class ImageController extends Controller implements HasMiddleware
      */
     public function store(UploadImageRequest $request)
     {
-        dd("画像登録します！");
+        $images = $request->file('files');
+        if (!is_null($images)) {
+            $folder = 'product';
+            foreach ($images as $image) {
+                $uniqFileName = ImageService::upload($image['image'], $folder);
+                Image::create([
+                    'ownerId' => Auth::id(),
+                    'imageName' => $uniqFileName,
+                ]);
+            }
+        }
+        return redirect()->route('owner.images.index')->with(['message' => '画像を登録しました。', 'status' => 'info']);
     }
 
     /**
