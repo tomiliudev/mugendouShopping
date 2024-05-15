@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UploadImageRequest;
 use App\Models\Image;
 use Closure;
 use Illuminate\Http\Request;
@@ -51,7 +52,7 @@ class ImageController extends Controller implements HasMiddleware
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UploadImageRequest $request)
     {
         dd("画像登録します！");
     }

@@ -23,8 +23,8 @@
 
                                 <div class="relative mb-4">
                                     <label for="image" class="leading-7 text-sm text-gray-600">画像</label>
-                                    <input type="file" id="image" name="image" accept="image/jpeg,image/jpg,image/png" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                                    <x-input-error :messages="$errors->first('image')" class="mt-2" />
+                                    <input type="file" id="image" name="files[][image]" accept="image/jpeg,image/jpg,image/png" multiple required class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                    <x-input-error :messages="$errors->first('files.*.image')" class="mt-2" />
                                 </div>
 
                                 <div class="flex justify-between">
