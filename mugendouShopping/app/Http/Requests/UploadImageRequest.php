@@ -22,7 +22,7 @@ class UploadImageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image' => ['image', 'mimes:jpg,jpeg,png', 'max:2048'],
+            'uploadImage' => ['image', 'mimes:jpg,jpeg,png', 'max:2048'],
             'files.*.image' => ['required', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
         ];
     }
@@ -35,9 +35,9 @@ class UploadImageRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'image.image' => '画像ファイルを選択してください。',
-            'image.mimes' => '拡張子が（jpg,jpeg,png）の画像を選択してください。',
-            'image.max' => 'サイズが2MB以下の画像を選択してください。',
+            'uploadImage.image' => '画像ファイルを選択してください。',
+            'uploadImage.mimes' => '拡張子が（jpg,jpeg,png）の画像を選択してください。',
+            'uploadImage.max' => 'サイズが2MB以下の画像を選択してください。',
             'files.*.image.image' => '画像ファイルを選択してください。',
             'files.*.image.required' => '画像ファイルを選択してください。',
             'files.*.image.mimes' => '拡張子が（jpg,jpeg,png）の画像を選択してください。',

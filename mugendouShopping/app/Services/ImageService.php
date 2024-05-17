@@ -20,9 +20,9 @@ class ImageService
         return $uniqFileName;
     }
 
-    public static function delete($image, $folder)
+    public static function delete($imageName, $folder)
     {
-        $filePath = sprintf(self::PATH, $folder) . $image;
+        $filePath = sprintf(self::PATH, $folder) . $imageName;
         if (Storage::exists($filePath)) {
             Storage::delete($filePath);
         }

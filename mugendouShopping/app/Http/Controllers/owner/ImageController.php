@@ -13,6 +13,13 @@ use Illuminate\Support\Facades\Auth;
 
 class ImageController extends Controller implements HasMiddleware
 {
+    // 共通のバリデーション
+    private const COMMON_VALIDATE = [
+        'title' => ['nullable', 'string', 'max:50'],
+    ];
+
+    private const IMAGE_FOLDER = 'product';
+
     /**
      * コントローラへ指定するミドルウェアを取得
      */
@@ -57,9 +64,8 @@ class ImageController extends Controller implements HasMiddleware
     {
         $images = $request->file('files');
         if (!is_null($images)) {
-            $folder = 'product';
             foreach ($images as $image) {
-                $uniqFileName = ImageService::upload($image['image'], $folder);
+                $uniqFileName = ImageService::upload($image['image'], self::IMAGE_FOLDER);
                 Image::create([
                     'ownerId' => Auth::id(),
                     'imageName' => $uniqFileName,
@@ -82,15 +88,29 @@ class ImageController extends Controller implements HasMiddleware
      */
     public function edit(string $id)
     {
-        //
+        $image = Image::findOrFail($id);
+        return view('owner.image.edit', compact('image'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UploadImageRequest $request, string $id)
     {
-        //
+        $request->validate(self::COMMON_VALIDATE);
+
+        $image = Image::findOrFail($id);
+        $image->title = $request->title;
+
+        $uploadedImage = $request->uploadImage;
+        if (!is_null($uploadedImage) && $uploadedImage->isValid()) {
+            ImageService::delete($image->imageName, self::IMAGE_FOLDER);
+            $image->imageName = ImageService::upload($uploadedImage, self::IMAGE_FOLDER);
+        }
+
+        $image->save();
+
+        return redirect()->route('owner.images.index')->with(['message' => '画像情報を更新しました。', 'status' => 'info']);
     }
 
     /**
@@ -98,6 +118,10 @@ class ImageController extends Controller implements HasMiddleware
      */
     public function destroy(string $id)
     {
-        //
+        $image = Image::findOrFail($id);
+        ImageService::delete($image->imageName, self::IMAGE_FOLDER);
+        $image->delete();
+
+        return redirect()->route('owner.images.index')->with(['message' => '画像情報を削除しました。', 'status' => 'warning']);
     }
 }
