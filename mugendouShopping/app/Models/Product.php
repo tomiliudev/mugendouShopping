@@ -40,4 +40,9 @@ class Product extends Model
     {
         return $this->belongsTo(SecondaryCategory::class, 'secondaryId');
     }
+
+    public function stocks()
+    {
+        return $this->hasMany(Stock::class, Stock::FOREIGN_KEY);
+    }
 }
