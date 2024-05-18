@@ -23,4 +23,9 @@ class Shop extends Model
     {
         return $this->belongsTo(Owner::class, self::FOREIGN_KEY);
     }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class, Product::FOREIGN_KEY);
+    }
 }
