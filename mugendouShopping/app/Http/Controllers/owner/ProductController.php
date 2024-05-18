@@ -37,7 +37,12 @@ class ProductController extends Controller implements HasMiddleware
      */
     public function index()
     {
-        $products = Owner::findOrFail(Auth::id())->shop->products;
+        // 単純にリレーションでつなげる場合、where x = で検索するので、数分クエリが実行される
+        // $products = Owner::findOrFail(Auth::id())->shop->products;
+
+        // Eager Loadingを使う。関連リレーションをwhere x in ()の形で取得してくるのでN + 1 問題の回避ができる
+        $owner = Owner::with('shop.products.imageOne')->findOrFail(Auth::id());
+        $products = $owner->shop->products ?? collect();
         return view('owner.product.index', compact('products'));
     }
 
