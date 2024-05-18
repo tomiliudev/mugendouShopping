@@ -3,16 +3,42 @@
 namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
+use App\Models\Owner;
+use App\Models\Product;
+use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Support\Facades\Auth;
 
-class ProductController extends Controller
+class ProductController extends Controller implements HasMiddleware
 {
+    /**
+     * コントローラへ指定するミドルウェアを取得
+     */
+    public static function middleware(): array
+    {
+        return [
+            'auth:owner',
+            function (Request $request, Closure $next) {
+                $id = $request->route()->parameter('product');
+                if (!is_null($id)) {
+                    $id = (int)$id;
+                    if (Product::findOrFail($id)->shop->owner->id !== Auth::id()) {
+                        abort(404);
+                    }
+                }
+                return $next($request);
+            },
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $products = Owner::findOrFail(Auth::id())->shop->products;
+        return view('owner.product.index', compact('products'));
     }
 
     /**
