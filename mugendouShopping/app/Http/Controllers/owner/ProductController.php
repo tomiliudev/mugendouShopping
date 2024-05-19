@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
+use App\Models\Image;
 use App\Models\Owner;
+use App\Models\PrimaryCategory;
 use App\Models\Product;
+use App\Models\Shop;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -51,7 +54,15 @@ class ProductController extends Controller implements HasMiddleware
      */
     public function create()
     {
-        //
+        $shops = Shop::where('ownerId', Auth::id())
+            ->select(['name'])->get();
+
+        $images = Image::where('ownerId', Auth::id())
+            ->select(['id', 'imageName'])->get();
+
+        $categories = PrimaryCategory::with('secondaryCategories')->get();
+
+        return view('owner.product.create', compact('shops', 'images', 'categories'));
     }
 
     /**
@@ -59,7 +70,7 @@ class ProductController extends Controller implements HasMiddleware
      */
     public function store(Request $request)
     {
-        //
+        dd("商品登録");
     }
 
     /**
