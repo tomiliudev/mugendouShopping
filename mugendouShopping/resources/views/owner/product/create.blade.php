@@ -30,7 +30,10 @@
                                     <x-input-error :messages="$errors->first('category')" class="mt-2" />
                                 </div>
 
-                                <x-select-image name="" />
+                                <x-select-image name="image1" :images="$images" />
+                                <x-select-image name="image2" :images="$images" />
+                                <x-select-image name="image3" :images="$images" />
+                                <x-select-image name="image4" :images="$images" />
 
                                 <div class="flex justify-between">
                                     <x-secondary-button onclick="location.href='{{ route('owner.products.index') }}'">戻る</x-secondary-button>
@@ -45,3 +48,19 @@
         </div>
     </div>
 </x-app-layout>
+
+<script>
+    "use strict";
+    const images = document.querySelectorAll('.image');
+
+    for (var image of images) {
+        image.addEventListener('click', function (e) {
+            const imageName = e.target.dataset.id.substr(0, 6);
+            const imageId = e.target.dataset.id.replace(imageName + '_', '');
+            const fileName = e.target.dataset.image_name;
+            const imagePath = e.target.dataset.path;
+            document.getElementById(imageName + '_thumbnail').src = imagePath + '/' + fileName;
+            document.getElementById(imageName + '_hidden').value = imageId;
+        });
+    }
+</script>

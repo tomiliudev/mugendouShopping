@@ -1,23 +1,56 @@
-<div class="modal micromodal-slide" id="modal-1" aria-hidden="true">
+@php
+if ($name === 'image1') { $model = 'model-1'; }
+if ($name === 'image2') { $model = 'model-2'; }
+if ($name === 'image3') { $model = 'model-3'; }
+if ($name === 'image4') { $model = 'model-4'; }
+@endphp
+
+<div class="modal micromodal-slide" id="{{ $model }}" aria-hidden="true">
     <div class="modal__overlay" tabindex="-1" data-micromodal-close>
-        <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
+        <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="{{ $model }}-title">
         <header class="modal__header">
-            <h2 class="modal__title" id="modal-1-title">
-            Micromodal
+            <h2 class="modal__title" id="{{ $model }}-title">
+            画像を選択してください。
             </h2>
             <button type="button" class="modal__close" aria-label="Close modal" data-micromodal-close></button>
         </header>
-        <main class="modal__content" id="modal-1-content">
-            <p>
-            Try hitting the <code>tab</code> key and notice how the focus stays within the modal itself. Also, <code>esc</code> to close modal.
-            </p>
+        <main class="modal__content" id="{{ $model }}-content">
+            @if ($images->isEmpty())
+            画像がありません！
+            @else
+                <div class="flex flex-wrap">
+                    @foreach ($images as $image)
+                        <div class="w-1/2 md:w-1/4 p-2">
+                            <div class="border rounded-md p-2">
+                                <div class="text-xl">
+                                    {{$image->title;}}
+                                </div>
+                                <img class="image" src="{{ asset("storage/product/$image->imageName") }}"
+                                data-id="{{ $name }}_{{ $image->id }}"
+                                data-image_name="{{ $image->imageName }}"
+                                data-path={{ asset("storage/product/") }}
+
+                                {{-- data-micromodal-closeをつけると該当の要素が閉じる、こちらの場合はimgタグをクリックすると閉じる --}}
+                                data-micromodal-close>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
         </main>
         <footer class="modal__footer">
-            <button type="button" class="modal__btn modal__btn-primary">Continue</button>
-            <button type="button" class="modal__btn" data-micromodal-close aria-label="Close this dialog window">Close</button>
+            <button type="button" class="modal__btn" data-micromodal-close aria-label="Close this dialog window">閉じる</button>
         </footer>
         </div>
     </div>
 </div>
 
-<a href="#" data-micromodal-trigger="modal-1">Trigger modal</a>
+<div class="flex justify-start items-center mb-4">
+    <div class="mr-4">
+        <a href="javascript:;" data-micromodal-trigger="{{ $model }}">画像を選択</a>
+    </div>
+    <div class="w-1/4">
+        <img id="{{ $name }}_thumbnail" src="" />
+    </div>
+</div>
+<input id="{{ $name }}_hidden" type="hidden" name="{{ $name }}" value="" />

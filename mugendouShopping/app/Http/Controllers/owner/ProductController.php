@@ -70,7 +70,7 @@ class ProductController extends Controller implements HasMiddleware
      */
     public function store(Request $request)
     {
-        dd("商品登録");
+        dd($request);
     }
 
     /**
