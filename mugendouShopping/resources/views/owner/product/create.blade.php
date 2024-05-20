@@ -30,6 +30,8 @@
                                     <x-input-error :messages="$errors->first('category')" class="mt-2" />
                                 </div>
 
+                                <x-select-image name="" />
+
                                 <div class="flex justify-between">
                                     <x-secondary-button onclick="location.href='{{ route('owner.products.index') }}'">戻る</x-secondary-button>
                                     <x-primary-button>登録する</x-primary-button>
