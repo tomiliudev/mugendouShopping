@@ -60,7 +60,7 @@ class ShopController extends Controller implements HasMiddleware
         $name = $request->name;
         $information = $request->information;
         $isEnable = $request->isEnable;
-        $shopImage = $request->image;
+        $shopImage = $request->uploadImage;
 
         // shop情報取得
         $shop = Shop::findOrFail($id);
