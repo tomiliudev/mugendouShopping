@@ -55,7 +55,7 @@ class ProductController extends Controller implements HasMiddleware
     public function create()
     {
         $shops = Shop::where('ownerId', Auth::id())
-            ->select(['name'])->get();
+            ->select(['id', 'name'])->get();
 
         $images = Image::where('ownerId', Auth::id())
             ->select(['id', 'imageName'])->get();

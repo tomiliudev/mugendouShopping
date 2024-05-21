@@ -6,7 +6,7 @@ if ($name === 'image4') { $model = 'model-4'; }
 @endphp
 
 <div class="modal micromodal-slide" id="{{ $model }}" aria-hidden="true">
-    <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+    <div class="modal__overlay z-50" tabindex="-1" data-micromodal-close>
         <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="{{ $model }}-title">
         <header class="modal__header">
             <h2 class="modal__title" id="{{ $model }}-title">
@@ -47,7 +47,7 @@ if ($name === 'image4') { $model = 'model-4'; }
 
 <div class="flex justify-start items-center mb-4">
     <div class="mr-4">
-        <a href="javascript:;" data-micromodal-trigger="{{ $model }}">画像を選択</a>
+        <a class="py-2 px-4 bg-gray-200" href="javascript:;" data-micromodal-trigger="{{ $model }}">画像を選択</a>
     </div>
     <div class="w-1/4">
         <img id="{{ $name }}_thumbnail" src="" />

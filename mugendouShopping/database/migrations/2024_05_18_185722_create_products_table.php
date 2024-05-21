@@ -17,9 +17,9 @@ return new class extends Migration
                 ->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('name');
             $table->text('information');
-            $table->integer('price');
+            $table->unsignedInteger('price');
             $table->boolean('isSelling');
-            $table->integer('sortOrder');
+            $table->integer('sortOrder')->nullable();
             $table->integer('stock');
             $table->foreignId('secondaryId')->constrained('secondary_categories');
             $table->foreignId('image1')->nullable()->constrained('images');
