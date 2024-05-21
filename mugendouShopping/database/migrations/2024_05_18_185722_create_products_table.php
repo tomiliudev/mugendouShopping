@@ -20,7 +20,6 @@ return new class extends Migration
             $table->unsignedInteger('price');
             $table->boolean('isSelling');
             $table->integer('sortOrder')->nullable();
-            $table->integer('stock');
             $table->foreignId('secondaryId')->constrained('secondary_categories');
             $table->foreignId('image1')->nullable()->constrained('images');
             $table->foreignId('image2')->nullable()->constrained('images');

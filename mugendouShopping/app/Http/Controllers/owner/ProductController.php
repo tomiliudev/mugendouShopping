@@ -8,10 +8,13 @@ use App\Models\Owner;
 use App\Models\PrimaryCategory;
 use App\Models\Product;
 use App\Models\Shop;
+use App\Models\Stock;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller implements HasMiddleware
 {
@@ -70,7 +73,49 @@ class ProductController extends Controller implements HasMiddleware
      */
     public function store(Request $request)
     {
-        dd($request);
+        $request->validate([
+            'name' => ['string', 'required', 'max:50'],
+            'information' => ['string', 'required', 'max:1000'],
+            'price' => ['integer', 'required', 'min:0'],
+            'sortOrder' => ['integer', 'nullable'],
+            'quantity' => ['integer', 'required'],
+            'shopId' => ['integer', 'required', 'exists:shops,id'],
+            'secondaryId' => ['integer', 'required', 'exists:secondary_categories,id'],
+            'image1' => ['nullable', 'exists:images,id'],
+            'image2' => ['nullable', 'exists:images,id'],
+            'image3' => ['nullable', 'exists:images,id'],
+            'image4' => ['nullable', 'exists:images,id'],
+            'isSelling' => ['required'],
+        ]);
+
+        try {
+            DB::transaction(function () use ($request) {
+                $product = Product::create([
+                    'name' => $request->name,
+                    'information' => $request->information,
+                    'price' => $request->price,
+                    'sortOrder' => $request->sortOrder,
+                    'shopId' => $request->shopId,
+                    'secondaryId' => $request->secondaryId,
+                    'image1' => $request->image1,
+                    'image2' => $request->image2,
+                    'image3' => $request->image3,
+                    'image4' => $request->image4,
+                    'isSelling' => $request->isSelling,
+                ]);
+
+                Stock::create([
+                    'productId' => $product->id,
+                    'type' => 1,
+                    'quantity' => $request->quantity,
+                ]);
+            });
+        } catch (\Throwable $e) {
+            Log::error($e);
+            throw $e;
+        }
+
+        return redirect()->route('owner.products.index')->with(['message' => '商品を登録しました。', 'status' => 'info']);
     }
 
     /**

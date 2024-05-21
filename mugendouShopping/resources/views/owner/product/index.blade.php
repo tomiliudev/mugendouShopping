@@ -30,7 +30,7 @@
                                                     <div class="text-xl">
                                                         {{$product->name}}
                                                     </div>
-                                                    <x-thumbnail :imageName='$product->imageOne->imageName' folder='product' />
+                                                    <x-thumbnail :imageName="is_null($product->imageOne) ? '' : $product->imageOne->imageName" folder='product' />
                                                 </div>
                                             </a>
                                         </div>

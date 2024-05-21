@@ -46,19 +46,20 @@
                                 </div>
 
                                 <div class="relative mb-4">
-                                    <label for="shop" class="leading-7 text-sm text-gray-600">販売する店舗</label>
-                                    <select id="shop" name="shop" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                    <label for="shopId" class="leading-7 text-sm text-gray-600">販売する店舗</label>
+                                    <select id="shopId" name="shopId" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                                         @foreach ($shops as $shop)
                                             <option value="{{$shop->id}}">
                                                 {{$shop->name}}
                                             </option>
                                         @endforeach
                                     </select>
+                                    <x-input-error :messages="$errors->first('shopId')" class="mt-2" />
                                 </div>
 
                                 <div class="relative mb-4">
-                                    <label for="category" class="leading-7 text-sm text-gray-600">カテゴリ</label>
-                                    <select id="category" name="category" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                    <label for="secondaryId" class="leading-7 text-sm text-gray-600">カテゴリ</label>
+                                    <select id="secondaryId" name="secondaryId" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                                         @foreach ($categories as $category)
                                             <optgroup label="{{ $category->name }}">
                                             @foreach ($category->secondaryCategories as $secondary)
@@ -79,12 +80,12 @@
                                 <div class="relative mb-4">
                                     <div class="flex justify-start">
                                         <div class="pr-4">
-                                            <input type="radio" id="isEnable1" name="isEnable" value="1" {{ is_null(old('isEnable')) || old('isEnable') == 1 ? 'checked' : '' }}>
-                                            <label for="isEnable1" class="leading-7 text-sm text-gray-600">販売中</label>
+                                            <input type="radio" id="isSelling1" name="isSelling" value="1" {{ is_null(old('isSelling')) || old('isSelling') == 1 ? 'checked' : '' }}>
+                                            <label for="isSelling1" class="leading-7 text-sm text-gray-600">販売中</label>
                                         </div>
                                         <div>
-                                            <input type="radio" id="isEnable0" name="isEnable" value="0" {{ !is_null(old('isEnable')) && old('isEnable') == 0 ? 'checked' : '' }}>
-                                        <label for="isEnable0" class="leading-7 text-sm text-gray-600">停止中</label>
+                                            <input type="radio" id="isSelling0" name="isSelling" value="0" {{ !is_null(old('isSelling')) && old('isSelling') == 0 ? 'checked' : '' }}>
+                                        <label for="isSelling0" class="leading-7 text-sm text-gray-600">停止中</label>
                                         </div>
                                     </div>
                                 </div>

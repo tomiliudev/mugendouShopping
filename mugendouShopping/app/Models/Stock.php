@@ -12,6 +12,12 @@ class Stock extends Model
 
     protected $table = 't_stocks';
 
+    protected $fillable = [
+        'productId',
+        'type',
+        'quantity',
+    ];
+
     public const FOREIGN_KEY = 'productId';
 
     public function product()

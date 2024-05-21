@@ -9,6 +9,20 @@ class Product extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'information',
+        'price',
+        'sortOrder',
+        'shopId',
+        'secondaryId',
+        'image1',
+        'image2',
+        'image3',
+        'image4',
+        'isSelling',
+    ];
+
     public const FOREIGN_KEY = 'shopId';
 
     public function shop()
