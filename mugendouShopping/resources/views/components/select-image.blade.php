@@ -50,7 +50,15 @@ if ($name === 'image4') { $model = 'model-4'; }
         <a class="py-2 px-4 bg-gray-200" href="javascript:;" data-micromodal-trigger="{{ $model }}">画像を選択</a>
     </div>
     <div class="w-1/4">
-        <img id="{{ $name }}_thumbnail" src="" />
+        <img id="{{ $name }}_thumbnail" @if (isset($currentImageName) && $currentImageName)
+            src="{{ asset("storage/product/$currentImageName") }}"
+        @else
+            src=""
+        @endif />
     </div>
 </div>
-<input id="{{ $name }}_hidden" type="hidden" name="{{ $name }}" value="" />
+<input id="{{ $name }}_hidden" type="hidden" name="{{ $name }}" @if (isset($currentId) && $currentId)
+    value="{{ $currentId }}"
+@else
+    value=""
+@endif />

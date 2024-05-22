@@ -119,19 +119,22 @@ class ProductController extends Controller implements HasMiddleware
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
     {
-        //
+        $product = Product::findOrFail($id);
+        $quantity = Stock::where('productId', $product->id)->sum('quantity');
+
+        $shops = Shop::where('ownerId', Auth::id())
+            ->select(['id', 'name'])->get();
+
+        $images = Image::where('ownerId', Auth::id())
+            ->select(['id', 'imageName'])->get();
+
+        $categories = PrimaryCategory::with('secondaryCategories')->get();
+
+        return view('owner.product.edit', compact('product', 'quantity', 'shops', 'images', 'categories'));
     }
 
     /**
