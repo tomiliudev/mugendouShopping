@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Owner\ProductRequest;
 use App\Models\Image;
 use App\Models\Owner;
 use App\Models\PrimaryCategory;
@@ -71,23 +72,8 @@ class ProductController extends Controller implements HasMiddleware
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        $request->validate([
-            'name' => ['string', 'required', 'max:50'],
-            'information' => ['string', 'required', 'max:1000'],
-            'price' => ['integer', 'required', 'min:0'],
-            'sortOrder' => ['integer', 'nullable'],
-            'quantity' => ['integer', 'required'],
-            'shopId' => ['integer', 'required', 'exists:shops,id'],
-            'secondaryId' => ['integer', 'required', 'exists:secondary_categories,id'],
-            'image1' => ['nullable', 'exists:images,id'],
-            'image2' => ['nullable', 'exists:images,id'],
-            'image3' => ['nullable', 'exists:images,id'],
-            'image4' => ['nullable', 'exists:images,id'],
-            'isSelling' => ['required'],
-        ]);
-
         try {
             DB::transaction(function () use ($request) {
                 $product = Product::create([
@@ -140,9 +126,55 @@ class ProductController extends Controller implements HasMiddleware
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ProductRequest $request, string $id)
     {
-        //
+        $request->validate([
+            'current_quantity' => ['integer', 'required'],
+        ]);
+
+        $product = Product::findOrFail($id);
+        $quantity = Stock::where('productId', $product->id)->sum('quantity');
+
+        $current_quantity = (int)$request->current_quantity;
+        if ($quantity != $current_quantity) {
+            return redirect()->route('owner.products.edit', ['product' => $id])
+                ->with(['message' => '現在の在庫数が変わりました。ご確認ください。', 'status' => 'warning']);
+        } else {
+            try {
+                DB::transaction(function () use ($request, $product) {
+                    $product->shopId = $request->shopId;
+                    $product->name = $request->name;
+                    $product->information = $request->information;
+                    $product->price = $request->price;
+                    $product->isSelling = $request->isSelling;
+                    $product->sortOrder = $request->sortOrder;
+                    $product->secondaryId = $request->secondaryId;
+                    $product->image1 = $request->image1;
+                    $product->image2 = $request->image2;
+                    $product->image3 = $request->image3;
+                    $product->image4 = $request->image4;
+                    $product->save();
+
+                    $quantityType = (int)$request->quantityType;
+                    $quantity = $request->quantity;
+                    if ($quantityType > 0 && $quantity > 0) {
+                        if ($quantityType == 2) $quantity = $quantity * -1;
+
+                        Stock::create([
+                            'productId' => $product->id,
+                            'type' => $quantityType,
+                            'quantity' => $quantity,
+                        ]);
+                    }
+                });
+            } catch (\Throwable $e) {
+                Log::error($e);
+                throw $e;
+            }
+        }
+
+        return redirect()->route('owner.products.index')
+            ->with(['message' => '商品情報を更新しました。', 'status' => 'info']);
     }
 
     /**

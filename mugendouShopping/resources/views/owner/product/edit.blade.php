@@ -12,8 +12,12 @@
 
                     <section class="text-gray-600 body-font">
                         <div class="container px-5 py-24 mx-auto">
+
+                            <x-flash-message status="{{session('status')}}"/>
+
                             <form method="post" action="{{ route('owner.products.update', ['product' => $product->id]) }}">
                                 @csrf
+                                @method('PUT')
 
                                 <div class="relative mb-4">
                                     <label for="name" class="leading-7 text-sm text-gray-600">商品名 ※必須</label>
@@ -52,14 +56,15 @@
                                             <label for="quantityType1" class="leading-7 text-sm text-gray-600">追加</label>
                                         </div>
                                         <div>
-                                            <input type="radio" id="quantityType2" name="quantityType" value="0">
+                                            <input type="radio" id="quantityType2" name="quantityType" value="2">
                                         <label for="quantityType2" class="leading-7 text-sm text-gray-600">削減</label>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="relative mb-4">
-                                    <input type="number" id="quantity" name="quantity" value="" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                    <input type="number" id="quantity" name="quantity" value="0" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                    <span>0〜99の範囲で入力してください。</span>
                                     <x-input-error :messages="$errors->get('quantity')" class="mt-2" />
                                 </div>
 
