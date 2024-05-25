@@ -17,7 +17,7 @@
                                 @csrf
                                 @method('delete')
                                 <div class="flex justify-end mb-4">
-                                    <x-danger-button-not-submit onclick="deleteImage(this)">削除</x-danger-button-not-submit>
+                                    <x-danger-button-not-submit onclick="deleteImage(this)">削除する</x-danger-button-not-submit>
                                 </div>
                             </form>
 

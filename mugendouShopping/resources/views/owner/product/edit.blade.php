@@ -15,6 +15,14 @@
 
                             <x-flash-message status="{{session('status')}}"/>
 
+                            <form id="delete" method="POST" action="{{ route('owner.products.destroy', ['product' => $product->id]) }}">
+                                @csrf
+                                @method('delete')
+                                <div class="flex justify-end mb-4">
+                                    <x-danger-button-not-submit onclick="deleteProduct(this)">削除する</x-danger-button-not-submit>
+                                </div>
+                            </form>
+
                             <form method="post" action="{{ route('owner.products.update', ['product' => $product->id]) }}">
                                 @csrf
                                 @method('PUT')
@@ -148,5 +156,11 @@
             document.getElementById(imageName + '_thumbnail').src = imagePath + '/' + fileName;
             document.getElementById(imageName + '_hidden').value = imageId;
         });
+    }
+
+    function deleteProduct (e) {
+        if (confirm("本当に削除してよろしいですか？")) {
+            document.getElementById("delete").submit();
+        }
     }
 </script>
