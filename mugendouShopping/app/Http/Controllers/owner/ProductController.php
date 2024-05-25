@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Owner;
 
+use App\Constants\Config;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Owner\ProductRequest;
 use App\Models\Image;
@@ -158,7 +159,7 @@ class ProductController extends Controller implements HasMiddleware
                     $quantityType = (int)$request->quantityType;
                     $quantity = $request->quantity;
                     if ($quantityType > 0 && $quantity > 0) {
-                        if ($quantityType == 2) $quantity = $quantity * -1;
+                        if ($quantityType == Config::PRODUCT_REDUCE) $quantity = $quantity * -1;
 
                         Stock::create([
                             'productId' => $product->id,

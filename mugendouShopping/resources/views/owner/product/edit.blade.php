@@ -52,11 +52,11 @@
                                 <div class="relative mb-4">
                                     <div class="flex justify-start">
                                         <div class="pr-4">
-                                            <input type="radio" id="quantityType1" name="quantityType" value="1">
+                                            <input type="radio" id="quantityType1" name="quantityType" value="{{ \App\Constants\Config::PRODUCT_ADD }}">
                                             <label for="quantityType1" class="leading-7 text-sm text-gray-600">追加</label>
                                         </div>
                                         <div>
-                                            <input type="radio" id="quantityType2" name="quantityType" value="2">
+                                            <input type="radio" id="quantityType2" name="quantityType" value="{{ \App\Constants\Config::PRODUCT_REDUCE }}">
                                         <label for="quantityType2" class="leading-7 text-sm text-gray-600">削減</label>
                                         </div>
                                     </div>
