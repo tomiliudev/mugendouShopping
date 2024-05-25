@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('t_stocks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('productId')->constrained('products');
+            $table->foreignId('productId')->constrained('products')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
             $table->tinyInteger('type');
             $table->integer('quantity');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
