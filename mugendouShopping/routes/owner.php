@@ -9,15 +9,11 @@ use App\Http\Controllers\Owner\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Owner\Auth\NewPasswordController;
 use App\Http\Controllers\Owner\Auth\PasswordController;
 use App\Http\Controllers\Owner\Auth\PasswordResetLinkController;
-use App\Http\Controllers\Owner\Auth\RegisteredUserController;
 use App\Http\Controllers\Owner\Auth\VerifyEmailController;
 use App\Http\Controllers\Owner\ImageController;
 use App\Http\Controllers\Owner\ProductController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('owner/welcome');
-});
 
 Route::get('/dashboard', function () {
     return view('owner/dashboard');
@@ -39,11 +35,6 @@ Route::middleware('auth:owner')->group(function () {
 });
 
 Route::middleware('guest:owner')->group(function () {
-    Route::get('register', [RegisteredUserController::class, 'create'])
-        ->name('register');
-
-    Route::post('register', [RegisteredUserController::class, 'store']);
-
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
         ->name('login');
 
