@@ -14,7 +14,7 @@ class OwnerSeeder extends Seeder
      */
     public function run(): void
     {
-        $params = [
+        DB::table('owners')->insert([
             [
                 'name' => 'test_owner_1',
                 'email' => 'test_owner_1@email.com',
@@ -75,10 +75,6 @@ class OwnerSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'created_at' => '2023-03-01 12:11:15',
             ],
-        ];
-
-        foreach ($params as $param) {
-            DB::table('owners')->insert($param);
-        }
+        ]);
     }
 }
