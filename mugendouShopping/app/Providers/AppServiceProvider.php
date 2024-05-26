@@ -49,7 +49,7 @@ class AppServiceProvider extends ServiceProvider
             } elseif (Route::is('admin.*')) {
                 return route('admin.dashboard');
             } else {
-                return route('dashboard');
+                return route('item.index');
             }
         });
     }
