@@ -5,11 +5,14 @@ namespace App\Http\Controllers\Owner;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UploadImageRequest;
 use App\Models\Image;
+use App\Models\Owner;
 use App\Services\ImageService;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ImageController extends Controller implements HasMiddleware
 {
@@ -118,10 +121,35 @@ class ImageController extends Controller implements HasMiddleware
      */
     public function destroy(string $id)
     {
-        $image = Image::findOrFail($id);
-        ImageService::delete($image->imageName, self::IMAGE_FOLDER);
-        $image->delete();
+        try {
+            DB::transaction(function () use ($id) {
+                $image = Image::findOrFail($id);
 
-        return redirect()->route('owner.images.index')->with(['message' => '画像情報を削除しました。', 'status' => 'warning']);
+                $products = Owner::findOrFail(Auth::id())->shop->products;
+                $products->each(function ($product) use ($image) {
+                    if ($product->image1 == $image->id) {
+                        $product->image1 = null;
+                    }
+                    if ($product->image2 == $image->id) {
+                        $product->image2 = null;
+                    }
+                    if ($product->image3 == $image->id) {
+                        $product->image3 = null;
+                    }
+                    if ($product->image4 == $image->id) {
+                        $product->image4 = null;
+                    }
+                    $product->save();
+                });
+
+                ImageService::delete($image->imageName, self::IMAGE_FOLDER);
+                $image->delete();
+            });
+
+            return redirect()->route('owner.images.index')->with(['message' => '画像情報を削除しました。', 'status' => 'warning']);
+        } catch (\Throwable $e) {
+            Log::error($e);
+            throw $e;
+        }
     }
 }
