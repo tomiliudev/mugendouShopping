@@ -23,7 +23,7 @@ class CategorySeeder extends Seeder
                 'sortOrder' => 2
             ],
             [
-                'name' => 'ぬいぐるみ',
+                'name' => '動物',
                 'sortOrder' => 3
             ],
         ]);
@@ -51,7 +51,7 @@ class CategorySeeder extends Seeder
                 'primaryId' => 2
             ],
             [
-                'name' => 'スポーツカー',
+                'name' => 'トラック',
                 'sortOrder' => 5,
                 'primaryId' => 2
             ],
@@ -72,7 +72,7 @@ class CategorySeeder extends Seeder
                 'primaryId' => 3
             ],
             [
-                'name' => 'ブタ',
+                'name' => '豚',
                 'sortOrder' => 9,
                 'primaryId' => 3
             ],

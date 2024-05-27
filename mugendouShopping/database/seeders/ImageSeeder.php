@@ -16,15 +16,39 @@ class ImageSeeder extends Seeder
         DB::table('images')->insert([
             [
                 'ownerId' => 1,
-                'imageName' => 'sample1.jpg',
+                'imageName' => '1.jpg',
             ],
             [
                 'ownerId' => 1,
-                'imageName' => 'sample2.jpg',
+                'imageName' => '2.jpg',
             ],
             [
                 'ownerId' => 1,
-                'imageName' => 'sample3.jpg',
+                'imageName' => '3.jpg',
+            ],
+            [
+                'ownerId' => 1,
+                'imageName' => '4.jpg',
+            ],
+            [
+                'ownerId' => 1,
+                'imageName' => '5.jpg',
+            ],
+            [
+                'ownerId' => 1,
+                'imageName' => '6.jpg',
+            ],
+            [
+                'ownerId' => 1,
+                'imageName' => '7.jpg',
+            ],
+            [
+                'ownerId' => 1,
+                'imageName' => '8.jpg',
+            ],
+            [
+                'ownerId' => 1,
+                'imageName' => '9.jpg',
             ],
         ]);
     }
