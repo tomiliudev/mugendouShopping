@@ -23,10 +23,12 @@
                                         <div class="w-1/2 md:w-1/4 p-2">
                                             <a href="{{route('owner.products.edit', ['product' => $product->id])}}">
                                                 <div class="border rounded-md p-2">
-                                                    <div class="text-xl">
-                                                        {{$product->name}}
-                                                    </div>
                                                     <x-thumbnail :imageName="is_null($product->imageOne) ? '' : $product->imageOne->imageName" folder='product' />
+                                                    <div class="mt-4">
+                                                    <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">{{$product->secondaryCategory->name}}</h3>
+                                                    <h2 class="text-gray-900 title-font text-lg font-medium">{{$product->name}}</h2>
+                                                    <p class="mt-1">{{ number_format($product->price) }}<span class="text-sm text-grey-700">円（税込）</span></p>
+                                                    </div>
                                                 </div>
                                             </a>
                                         </div>
