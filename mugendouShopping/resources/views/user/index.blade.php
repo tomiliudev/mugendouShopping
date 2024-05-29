@@ -11,7 +11,7 @@
                 <div class="md:px-6 py-6 text-gray-900">
 
                     <section class="text-gray-600 body-font">
-                        <div class="container md:px-5 py-24 mx-auto">
+                        <div class="container md:px-5 py-4 mx-auto">
 
                             <div class="pb-4"><x-flash-message status="{{ session('status') }}" /></div>
 
@@ -34,6 +34,7 @@
                                         </div>
                                     @endforeach
                                 </div>
+                                {{ $products->links() }}
                             @endif
                         </div>
                     </section>
