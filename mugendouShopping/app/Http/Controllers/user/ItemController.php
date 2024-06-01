@@ -5,6 +5,7 @@ namespace App\Http\Controllers\user;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Shop;
+use App\Models\Stock;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -54,6 +55,10 @@ class ItemController extends Controller implements HasMiddleware
     public function show($productId)
     {
         $product = Product::findOrFail($productId);
-        return view('user.show', compact('product'));
+        $quantity = Stock::where('productId', $product->id)->sum('quantity');
+        if ($quantity > 9) {
+            $quantity = 9;
+        }
+        return view('user.show', compact('product', 'quantity'));
     }
 }
