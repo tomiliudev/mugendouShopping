@@ -1,5 +1,14 @@
+@php
+    if (!isset($classStyle)) {
+        $classStyle = '';
+    }
+@endphp
 @if (empty($imageName))
-    <img src="{{ asset('images/no_image.png') }}">
+    <img @if ($classStyle)
+        class="{{$classStyle}}"
+    @endif src="{{ asset('images/no_image.png') }}">
 @else
-    <img src="{{ asset("storage/$folder/$imageName") }}">
+    <img @if ($classStyle)
+        class="{{$classStyle}}"
+    @endif src="{{ asset("storage/$folder/$imageName") }}">
 @endif
