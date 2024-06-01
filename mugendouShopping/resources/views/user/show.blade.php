@@ -15,7 +15,34 @@
                             <div class="flex flex-wrap">
 
                                 <div class="md:w-1/2">
-                                    <x-thumbnail :imageName="is_null($product->imageOne) ? '' : $product->imageOne->imageName" folder='product' />
+                                    <!-- Slider main container -->
+                                    <div class="swiper">
+                                        <!-- Additional required wrapper -->
+                                        <div class="swiper-wrapper">
+                                            <!-- Slides -->
+                                            @if ($product->imageOne)
+                                                <div class="swiper-slide"><x-thumbnail :imageName="$product->imageOne->imageName" folder='product' /></div>
+                                            @endif
+                                            @if ($product->imageTwo)
+                                                <div class="swiper-slide"><x-thumbnail :imageName="$product->imageTwo->imageName" folder='product' /></div>
+                                            @endif
+                                            @if ($product->imageThree)
+                                                <div class="swiper-slide"><x-thumbnail :imageName="$product->imageThree->imageName" folder='product' /></div>
+                                            @endif
+                                            @if ($product->imageFour)
+                                                <div class="swiper-slide"><x-thumbnail :imageName="$product->imageFour->imageName" folder='product' /></div>
+                                            @endif
+                                        </div>
+                                        <!-- If we need pagination -->
+                                        <div class="swiper-pagination"></div>
+
+                                        <!-- If we need navigation buttons -->
+                                        <div class="swiper-button-prev"></div>
+                                        <div class="swiper-button-next"></div>
+
+                                        <!-- If we need scrollbar -->
+                                        <div class="swiper-scrollbar"></div>
+                                    </div>
                                 </div>
 
                                 <div class="md:w-1/2 w-full md:pl-10 mt-6 md:mt-0">
@@ -49,4 +76,5 @@
             </div>
         </div>
     </div>
+    @vite(['resources/css/swiper.css', 'resources/js/swiper.js'])
 </x-app-layout>
