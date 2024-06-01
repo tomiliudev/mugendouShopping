@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\user\CartController;
 use App\Http\Controllers\user\ItemController;
 use App\Http\Controllers\user\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -15,6 +16,7 @@ Route::middleware('auth:user')->group(function () {
 
     Route::get('/', [ItemController::class, 'index'])->name('item.index');
     Route::get('/show/{product}', [ItemController::class, 'show'])->name('item.show');
+    Route::post('/add}', [CartController::class, 'add'])->name('cart.add');
 });
 
 require __DIR__ . '/auth.php';

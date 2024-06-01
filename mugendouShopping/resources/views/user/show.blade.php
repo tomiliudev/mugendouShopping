@@ -52,21 +52,26 @@
 
                                     <p class="mb-4 leading-relaxed">{{ $product->information }}</p>
 
-                                    <div class="relative">
-                                        <span class="mr-3">数量</span>
-                                        <select name="quantity" class="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 text-base pl-3 pr-10">
-                                            @for ($i = 1; $i <= $quantity; $i++)
-                                                <option value="{{ $i }}">{{ $i }}</option>
-                                            @endfor
-                                        </select>
-                                    </div>
+                                    <form action="{{ route("cart.add") }}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="productId" value="{{$product->id}}">
 
-                                    <div class="pb-5 border-b-2 border-gray-100 mb-5"></div>
+                                        <div class="relative">
+                                            <span class="mr-3">数量</span>
+                                            <select name="quantity" class="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 text-base pl-3 pr-10">
+                                                @for ($i = 1; $i <= $quantity; $i++)
+                                                    <option value="{{ $i }}">{{ $i }}</option>
+                                                @endfor
+                                            </select>
+                                        </div>
 
-                                    <div class="flex items-center">
-                                        <span class="title-font font-medium text-2xl text-gray-900">{{ number_format($product->price) }}<span class="text-sm text-gray-700">円（税込）</span></span>
-                                        <button class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">カートに入れる</button>
-                                    </div>
+                                        <div class="pb-5 border-b-2 border-gray-100 mb-5"></div>
+
+                                        <div class="flex items-center">
+                                            <span class="title-font font-medium text-2xl text-gray-900">{{ number_format($product->price) }}<span class="text-sm text-gray-700">円（税込）</span></span>
+                                            <button class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">カートに入れる</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
 
