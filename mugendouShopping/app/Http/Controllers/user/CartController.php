@@ -4,6 +4,7 @@ namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Facades\Auth;
@@ -30,6 +31,19 @@ class CartController extends Controller implements HasMiddleware
         ];
     }
 
+    public function index()
+    {
+        $user = User::findOrFail(Auth::id());
+        $products = $user->products;
+
+        $totalPrice = 0;
+        foreach ($products as $product) {
+            $totalPrice += $product->price * $product->pivot->quantity;
+        }
+
+        return view('user.cart', compact('products', 'totalPrice'));
+    }
+
     public function add(Request $request)
     {
         $request->validate([
@@ -53,6 +67,6 @@ class CartController extends Controller implements HasMiddleware
             ]);
         }
 
-        return redirect()->route('item.index')->with(['message' => 'カートに追加しました。', 'status' => 'info']);
+        return redirect()->route('cart.index')->with(['message' => 'カートに追加しました。', 'status' => 'info']);
     }
 }
