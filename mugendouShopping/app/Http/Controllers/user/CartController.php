@@ -69,4 +69,10 @@ class CartController extends Controller implements HasMiddleware
 
         return redirect()->route('cart.index')->with(['message' => 'カートに追加しました。', 'status' => 'info']);
     }
+
+    public function delete($id)
+    {
+        Cart::where('productId', $id)->where('userId', Auth::id())->delete();
+        return redirect()->route('cart.index')->with(['message' => '商品をカートから削除しました。', 'status' => 'warning']);
+    }
 }
