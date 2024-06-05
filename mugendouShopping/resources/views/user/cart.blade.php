@@ -37,7 +37,18 @@
                                 </div>
                             </div>
                         @endforeach
-                        {{-- {{ number_format($totalPrice) }} --}}
+
+                        <div class="pb-5 border-b-2 border-gray-100 mb-5"></div>
+
+                        <div class="flex">
+                            <div class="mr-4">合計金額</div>
+                            <div>{{ number_format($totalPrice) }}<span class="text-sm text-gray-700">円（税込）</span></div>
+                        </div>
+
+                        <form action="{{route("cart.checkout")}}" method="get">
+                            <button class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">購入する</button>
+                        </form>
+
                     @endif
                 </div>
             </div>
