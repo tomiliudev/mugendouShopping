@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Product extends Model
 {
@@ -63,5 +64,21 @@ class Product extends Model
     public function users()
     {
         return $this->belongsToMany(User::class, 'carts', 'productId', 'userId')->withPivot(['id', 'quantity']);
+    }
+
+    // ローカルスコープ
+    public function scopeAvailableItems($query)
+    {
+        // shop.isEnable = true
+        // product.isSelling = true
+        // 在庫が1以上
+        $stocks = DB::table('t_stocks')->select('productId', DB::raw('sum(quantity) as quantity'))->groupBy('productId')->having('quantity', '>', 0)->get();
+        $productIds = array_column($stocks->toArray(), 'productId');
+        $shops = Shop::select('id')->where('isEnable', 1)->get();
+        $shopIds = array_column($shops->toArray(), 'id');
+        return Product::with(['imageOne', 'imageTwo', 'imageThree', 'imageFour', 'secondaryCategory', 'stocks'])
+            ->whereIn('id', $productIds)
+            ->whereIn('shopId', $shopIds)
+            ->where('isSelling', 1);
     }
 }
