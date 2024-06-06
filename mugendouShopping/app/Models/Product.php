@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use App\Constants\Config;
 
 class Product extends Model
 {
@@ -80,5 +81,27 @@ class Product extends Model
             ->whereIn('id', $productIds)
             ->whereIn('shopId', $shopIds)
             ->where('isSelling', 1);
+    }
+
+    public function scopeSortOrder($query, $sort)
+    {
+        switch ($sort) {
+            case Config::SORT_HIGHER_PRICE:
+                return $query->OrderBy('price', 'desc');
+                break;
+            case Config::SORT_LOWER_PRICE:
+                return $query->OrderBy('price', 'asc');
+                break;
+            case Config::SORT_LATER:
+                return $query->OrderBy('created_at', 'desc');
+                break;
+            case Config::SORT_OLDER:
+                return $query->OrderBy('created_at', 'asc');
+                break;
+            case Config::SORT_RECOMMEND:
+            default:
+                return $query->OrderBy('sortOrder', 'asc');
+                break;
+        }
     }
 }

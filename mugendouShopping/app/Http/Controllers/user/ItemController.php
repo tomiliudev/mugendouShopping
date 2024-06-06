@@ -8,6 +8,7 @@ use App\Models\Stock;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
+use App\Constants\Config;
 
 class ItemController extends Controller implements HasMiddleware
 {
@@ -32,10 +33,22 @@ class ItemController extends Controller implements HasMiddleware
         ];
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::availableItems()->paginate(12);
-        return view('user.index', compact('products'));
+        $products = Product::availableItems()
+            ->sortOrder($request->sort)
+            // ->paginate(12);
+            ->get();
+
+        $sortTypeList = [
+            Config::SORT_RECOMMEND => 'おすすめ順',
+            Config::SORT_HIGHER_PRICE => '高い順',
+            Config::SORT_LOWER_PRICE => '安い順',
+            Config::SORT_LATER => '新しい順',
+            Config::SORT_OLDER => '古い順',
+        ];
+
+        return view('user.index', compact('products', 'sortTypeList'));
     }
 
     public function show($productId)

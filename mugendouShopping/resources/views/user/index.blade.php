@@ -1,8 +1,22 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            ホーム
-        </h2>
+        <div class="flex justify-between items-center">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                ホーム
+            </h2>
+            <div>
+                <form action="{{ route('item.index') }}" method="GET">
+                    @csrf
+                    <select name="sort" id="sort">
+                        @foreach ($sortTypeList as $sortType => $sortName)
+                            <option value="{{$sortType}}" @if (\Request::get('sort') == $sortType)
+                                selected
+                            @endif>{{$sortName}}</option>
+                        @endforeach
+                    </select>
+                </form>
+            </div>
+        </div>
     </x-slot>
 
     <div class="py-12">
@@ -34,7 +48,7 @@
                                         </div>
                                     @endforeach
                                 </div>
-                                {{ $products->links() }}
+                                {{-- {{ $products->links() }} --}}
                             @endif
                         </div>
                     </section>
@@ -44,3 +58,10 @@
         </div>
     </div>
 </x-app-layout>
+
+<script>
+    var sort = document.getElementById('sort')
+    sort.addEventListener('change', function() {
+        this.form.submit()
+    })
+</script>
