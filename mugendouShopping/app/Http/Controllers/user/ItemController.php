@@ -4,13 +4,10 @@ namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
-use App\Models\Shop;
 use App\Models\Stock;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class ItemController extends Controller implements HasMiddleware
 {
@@ -21,16 +18,17 @@ class ItemController extends Controller implements HasMiddleware
     {
         return [
             'auth:user',
-            // function (Request $request, Closure $next) {
-            //     $id = $request->route()->parameter('product');
-            //     if (!is_null($id)) {
-            //         $id = (int)$id;
-            //         if (Product::findOrFail($id)->shop->owner->id !== Auth::id()) {
-            //             abort(404);
-            //         }
-            //     }
-            //     return $next($request);
-            // },
+            function (Request $request, Closure $next) {
+
+                $id = $request->route()->parameter('product');
+                if (!is_null($id)) {
+                    $id = (int)$id;
+                    if (!Product::availableItems()->where('id', $id)->first()) {
+                        abort(404);
+                    }
+                }
+                return $next($request);
+            },
         ];
     }
 
