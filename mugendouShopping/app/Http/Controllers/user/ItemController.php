@@ -37,8 +37,7 @@ class ItemController extends Controller implements HasMiddleware
     {
         $products = Product::availableItems()
             ->sortOrder($request->sort)
-            // ->paginate(12);
-            ->get();
+            ->paginate($request->pagination ?? Config::PAGINATION_12);
 
         $sortTypeList = [
             Config::SORT_RECOMMEND => 'おすすめ順',
@@ -48,7 +47,15 @@ class ItemController extends Controller implements HasMiddleware
             Config::SORT_OLDER => '古い順',
         ];
 
-        return view('user.index', compact('products', 'sortTypeList'));
+        $paginationList = [
+            Config::PAGINATION_12 => '１２件',
+            Config::PAGINATION_24 => '２４件',
+            Config::PAGINATION_36 => '３６件',
+            Config::PAGINATION_48 => '４８件',
+            Config::PAGINATION_60 => '６０件',
+        ];
+
+        return view('user.index', compact('products', 'sortTypeList', 'paginationList'));
     }
 
     public function show($productId)

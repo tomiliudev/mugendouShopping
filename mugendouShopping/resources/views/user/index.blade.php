@@ -7,11 +7,21 @@
             <div>
                 <form action="{{ route('item.index') }}" method="GET">
                     @csrf
+                    {{-- 表示順 --}}
                     <select name="sort" id="sort">
                         @foreach ($sortTypeList as $sortType => $sortName)
                             <option value="{{$sortType}}" @if (\Request::get('sort') == $sortType)
                                 selected
                             @endif>{{$sortName}}</option>
+                        @endforeach
+                    </select>
+
+                    {{-- 表示件数 --}}
+                    <select name="pagination" id="pagination">
+                        @foreach ($paginationList as $pagination => $paginationName)
+                            <option value="{{$pagination}}" @if (\Request::get('pagination') == $pagination)
+                                selected
+                            @endif>{{$paginationName}}</option>
                         @endforeach
                     </select>
                 </form>
@@ -48,7 +58,11 @@
                                         </div>
                                     @endforeach
                                 </div>
-                                {{-- {{ $products->links() }} --}}
+                                {{ $products->appends([
+                                    'sort' => \Request::get('sort'),
+                                    'pagination' => \Request::get('pagination'),
+                                    ])->links()
+                                }}
                             @endif
                         </div>
                     </section>
@@ -62,6 +76,11 @@
 <script>
     var sort = document.getElementById('sort')
     sort.addEventListener('change', function() {
+        this.form.submit()
+    })
+
+    var pagination = document.getElementById('pagination')
+    pagination.addEventListener('change', function() {
         this.form.submit()
     })
 </script>
