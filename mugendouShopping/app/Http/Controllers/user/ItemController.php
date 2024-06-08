@@ -9,6 +9,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use App\Constants\Config;
+use App\Models\PrimaryCategory;
 
 class ItemController extends Controller implements HasMiddleware
 {
@@ -36,6 +37,7 @@ class ItemController extends Controller implements HasMiddleware
     public function index(Request $request)
     {
         $products = Product::availableItems()
+            ->category($request->category)
             ->sortOrder($request->sort)
             ->paginate($request->pagination ?? Config::PAGINATION_12);
 
@@ -55,7 +57,9 @@ class ItemController extends Controller implements HasMiddleware
             Config::PAGINATION_60 => '６０件',
         ];
 
-        return view('user.index', compact('products', 'sortTypeList', 'paginationList'));
+        $categoryList = PrimaryCategory::with('secondaryCategories')->get();
+
+        return view('user.index', compact('products', 'categoryList', 'sortTypeList', 'paginationList'));
     }
 
     public function show($productId)

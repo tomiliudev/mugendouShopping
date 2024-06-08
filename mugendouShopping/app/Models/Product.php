@@ -104,4 +104,10 @@ class Product extends Model
                 break;
         }
     }
+
+    public function scopeCategory($query, $category)
+    {
+        if (!$category) return $query;
+        return $query->where('secondaryId', $category);
+    }
 }

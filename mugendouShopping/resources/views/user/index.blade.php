@@ -7,6 +7,21 @@
             <div>
                 <form action="{{ route('item.index') }}" method="GET">
                     @csrf
+
+                    {{-- カテゴリ --}}
+                    <select name="category" id="category">
+                        <option value="0">すべて</option>
+                        @foreach ($categoryList as $category)
+                            <optgroup label="{{$category->name}}">
+                            @foreach ($category->secondaryCategories as $secCategory)
+                                <option value="{{$secCategory->id}}" @if (\Request::get('category') == $secCategory->id)
+                                    selected
+                                @endif>{{$secCategory->name}}</option>
+                            @endforeach
+                            </optgroup>
+                        @endforeach
+                    </select>
+
                     {{-- 表示順 --}}
                     <select name="sort" id="sort">
                         @foreach ($sortTypeList as $sortType => $sortName)
@@ -59,6 +74,7 @@
                                     @endforeach
                                 </div>
                                 {{ $products->appends([
+                                    'category' => \Request::get('category'),
                                     'sort' => \Request::get('sort'),
                                     'pagination' => \Request::get('pagination'),
                                     ])->links()
@@ -74,6 +90,12 @@
 </x-app-layout>
 
 <script>
+
+    var category = document.getElementById('category')
+    category.addEventListener('change', function() {
+        this.form.submit()
+    })
+
     var sort = document.getElementById('sort')
     sort.addEventListener('change', function() {
         this.form.submit()
