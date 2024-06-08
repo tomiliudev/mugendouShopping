@@ -8,6 +8,11 @@
                 <form action="{{ route('item.index') }}" method="GET">
                     @csrf
 
+                    {{-- キーワード --}}
+                    <span class="text-sm">※スペース区切りで複数指定可能</span><br>
+                    <input placeholder="キーワードを入力" name="keyword" value="{{ \Request::get('keyword') }}">
+                    <button class="ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">検索する</button>
+
                     {{-- カテゴリ --}}
                     <select name="category" id="category">
                         <option value="0">すべて</option>
@@ -74,6 +79,7 @@
                                     @endforeach
                                 </div>
                                 {{ $products->appends([
+                                    'keyword' => \Request::get('keyword'),
                                     'category' => \Request::get('category'),
                                     'sort' => \Request::get('sort'),
                                     'pagination' => \Request::get('pagination'),

@@ -110,4 +110,23 @@ class Product extends Model
         if (!$category) return $query;
         return $query->where('secondaryId', $category);
     }
+
+    public function scopeKeyword($query, $keyword)
+    {
+        if (!$keyword) return;
+
+        // 全角スペースを半角に
+        $spaceConvert = mb_convert_kana($keyword, 's');
+
+        // 空白で区切る
+        $keywords = preg_split('/[\s]+/', $spaceConvert, -1, PREG_SPLIT_NO_EMPTY);
+        foreach ($keywords as $idx => $word) {
+            if ($idx == 0) {
+                $query->where('name', 'like', "%$word%");
+            } else {
+                $query->orWhere('name', 'like', "%$word%");
+            }
+        }
+        return $query;
+    }
 }

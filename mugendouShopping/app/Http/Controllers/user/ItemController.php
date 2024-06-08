@@ -38,6 +38,7 @@ class ItemController extends Controller implements HasMiddleware
     {
         $products = Product::availableItems()
             ->category($request->category)
+            ->keyword($request->keyword)
             ->sortOrder($request->sort)
             ->paginate($request->pagination ?? Config::PAGINATION_12);
 
