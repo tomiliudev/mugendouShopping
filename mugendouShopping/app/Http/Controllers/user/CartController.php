@@ -4,6 +4,8 @@ namespace App\Http\Controllers\user;
 
 use App\Constants\Config;
 use App\Http\Controllers\Controller;
+use App\Jobs\SendSoldMail;
+use App\Jobs\SendThanksMail;
 use App\Models\Cart;
 use App\Models\Stock;
 use App\Models\User;
@@ -134,7 +136,15 @@ class CartController extends Controller implements HasMiddleware
 
     public function success()
     {
+        // カートを空にする
         Cart::where('userId', Auth::id())->delete();
+
+        // Thanksメールを送る
+        SendThanksMail::dispatch();
+
+        // オーナーへメール送信
+        SendSoldMail::dispatch();
+
         return redirect()->route('item.index');
     }
 

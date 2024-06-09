@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class TestMail extends Mailable
+class SoldMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -27,7 +27,7 @@ class TestMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Test Mail',
+            subject: '売れました！',
         );
     }
 
@@ -37,7 +37,7 @@ class TestMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.index',
+            view: 'emails.sold',
         );
     }
 
