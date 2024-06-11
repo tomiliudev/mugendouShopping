@@ -9,6 +9,7 @@ use App\Jobs\SendThanksMail;
 use App\Models\Cart;
 use App\Models\Stock;
 use App\Models\User;
+use App\Services\MailService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Facades\Auth;
@@ -136,14 +137,22 @@ class CartController extends Controller implements HasMiddleware
 
     public function success()
     {
+        // メール情報の取得
+        $mailInfos = MailService::getMailInfos();
+
+        foreach ($mailInfos as $shopId => $info) {
+            $shopInfo = $info['shopInfo'];
+            $productInfos = $info['productInfo'];
+
+            // Thanksメールを送る
+            SendThanksMail::dispatch($shopInfo, $productInfos);
+
+            // オーナーへメール送信
+            SendSoldMail::dispatch($shopInfo, $productInfos);
+        }
+
         // カートを空にする
         Cart::where('userId', Auth::id())->delete();
-
-        // Thanksメールを送る
-        SendThanksMail::dispatch();
-
-        // オーナーへメール送信
-        SendSoldMail::dispatch();
 
         return redirect()->route('item.index');
     }

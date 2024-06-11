@@ -14,12 +14,16 @@ class SendSoldMail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    private $shopInfo = [];
+    private $productInfos = [];
+
     /**
      * Create a new job instance.
      */
-    public function __construct()
+    public function __construct($shopInfo, $productInfos)
     {
-        //
+        $this->shopInfo = $shopInfo;
+        $this->productInfos = $productInfos;
     }
 
     /**
@@ -27,6 +31,7 @@ class SendSoldMail implements ShouldQueue
      */
     public function handle(): void
     {
-        Mail::to('owner1@email.com')->send(new SoldMail);
+        Mail::to($this->shopInfo['owner']['email'])
+            ->send(new SoldMail($this->productInfos));
     }
 }

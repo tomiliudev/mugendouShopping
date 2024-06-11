@@ -16,9 +16,8 @@ class SoldMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(protected $productInfos)
     {
-        //
     }
 
     /**
@@ -38,6 +37,9 @@ class SoldMail extends Mailable
     {
         return new Content(
             view: 'emails.sold',
+            with: [
+                'productInfos' => $this->productInfos
+            ]
         );
     }
 
